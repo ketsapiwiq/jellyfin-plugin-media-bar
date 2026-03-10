@@ -43,13 +43,15 @@
       <EmbeddedResource Include="Configuration\config.html" />
       <None Remove="Inject\index.html" />
       <EmbeddedResource Include="Inject\index.html" />
+      <None Remove="Inject\slideshowpure.js" />
+      <EmbeddedResource Include="Inject\slideshowpure.js" />
+      <None Remove="Inject\slideshowpure.css" />
+      <EmbeddedResource Include="Inject\slideshowpure.css" />
     </ItemGroup>
 
     <ItemGroup>
         <None Include="..\..\README.md" />
         <None Include="..\logo.png" CopyToOutputDirectory="Always" />
-        <None Include="..\..\slideshowpure.js" />
-        <None Include="..\..\slideshowpure.css" />
     </ItemGroup>
     
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="Exists('C:\ProgramData\Jellyfin\Server_10_11\plugins\MediaBar')">
