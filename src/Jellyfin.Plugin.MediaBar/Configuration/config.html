@@ -57,6 +57,15 @@
                         <div class="fieldDescription">If populated, and "Use physical avatars file" is disabled, this is the name of the playlist which is used to populate the media bar.<br />
                         If empty, the media bar will randomly populate.</div>
                     </div>
+                    <div class="inputContainer">
+                        <span>Media Type Filter: </span>
+                        <select is="emby-select" class="emby-select-withcolor emby-select" data-id="mediaTypeFilterSelect">
+                            <option value="Both">Both (Movies & TV Shows)</option>
+                            <option value="MoviesOnly">Movies Only</option>
+                            <option value="TvShowsOnly">TV Shows Only</option>
+                        </select>
+                        <div class="fieldDescription">Choose which media types to display in the media bar.</div>
+                    </div>
                 </div>
             </div>
             <div id="web-config" class="jellyfin-tab-content" style="display: none;">
@@ -191,13 +200,15 @@
                         UseAvatarsFile: document.querySelector("[data-id=chkUseAvatarsFile]").checked,
                         AvatarsPlaylist: document.querySelector("[data-id=txtAvatarsPlaylist]").value,
                         VersionString: document.querySelector("[data-id=txtVersionString]").value,
+                        MediaTypeFilter: document.querySelector("[data-id=mediaTypeFilterSelect]").value,
                         WebConfig: {
                             ImageSvgs: {
                                 ImdbLogo: null,
                                 TomatoLogo: null,
                                 FreshTomato: null,
-                                RottenTomato: null, 
+                                RottenTomato: null,
                             },
+                            MediaTypeFilter: document.querySelector("[data-id=mediaTypeFilterSelect]").value,
                             ShuffleInterval: parseInt(document.querySelector("[data-id=numShuffleInterval]").value, 10),
                             RetryInterval: parseInt(document.querySelector("[data-id=numRetryInterval]").value, 10),
                             MinSwipeDistance: parseInt(document.querySelector("[data-id=numMinSwipeDistance]").value, 10),
@@ -235,6 +246,8 @@
                             }
                             
                             document.querySelector("[data-id=txtVersionString]").value = config.VersionString;
+                            
+                            document.querySelector("[data-id=mediaTypeFilterSelect]").value = config.MediaTypeFilter;
                             
                             document.querySelector("[data-id=numShuffleInterval]").value = config.WebConfig.ShuffleInterval;
                             document.querySelector("[data-id=numRetryInterval]").value = config.WebConfig.RetryInterval;

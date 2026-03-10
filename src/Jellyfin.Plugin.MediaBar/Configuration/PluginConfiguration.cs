@@ -7,7 +7,14 @@ namespace Jellyfin.Plugin.MediaBar.Configuration
         Disabled,
         Enabled,
     }
-    
+
+    public enum MediaTypeFilter
+    {
+        Both,
+        MoviesOnly,
+        TvShowsOnly,
+    }
+
     public class PluginConfiguration : BasePluginConfiguration
     {
         public MediaBarState Enabled { get; set; } = MediaBarState.Enabled;
@@ -17,13 +24,17 @@ namespace Jellyfin.Plugin.MediaBar.Configuration
         public bool UseAvatarsFile { get; set; } = true;
 
         public string AvatarsPlaylist { get; set; } = string.Empty;
-        
+
+        public MediaTypeFilter MediaTypeFilter { get; set; } = MediaTypeFilter.Both;
+
         public WebConfig WebConfig { get; set; } = new WebConfig();
     }
 
     public class WebConfig
     {
         public ImageSvgs ImageSvgs { get; set; } = new ImageSvgs();
+
+        public MediaTypeFilter MediaTypeFilter { get; set; } = MediaTypeFilter.Both;
         
         public int ShuffleInterval { get; set; } = -1;
         

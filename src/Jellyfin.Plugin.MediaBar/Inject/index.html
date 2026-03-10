@@ -55,6 +55,16 @@
                     window.slideshowPure.CONFIG.enableTrailers = config.EnableTrailers;
                 }
                 window.slideshowPure.CONFIG.slideAnimationEnabled = config.SlideAnimationEnabled;
+                
+                // Handle MediaTypeFilter - set maxMovies/maxTvShows based on filter
+                if (config.MediaTypeFilter !== undefined && config.MediaTypeFilter !== null) {
+                    if (config.MediaTypeFilter === "MoviesOnly") {
+                        window.slideshowPure.CONFIG.maxTvShows = 0;
+                    } else if (config.MediaTypeFilter === "TvShowsOnly") {
+                        window.slideshowPure.CONFIG.maxMovies = 0;
+                    }
+                    // "Both" uses default values (no changes needed)
+                }
             }
         };
 
