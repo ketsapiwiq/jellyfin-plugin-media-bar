@@ -364,6 +364,39 @@ const startLoginStatusWatcher = () => {
 };
 
 /**
+ * Watches for navigation to home page to trigger initialization
+ */
+const startHomePageWatcher = () => {
+  let wasOnHomePage = isHomePage();
+
+  const checkAndInitialize = () => {
+    const isOnHomePage = isHomePage();
+    
+    if (isOnHomePage && !wasOnHomePage) {
+      if (!STATE.slideshow.hasInitialized && isUserLoggedIn()) {
+        console.log("🏠 Navigated to home page. Initializing slideshow...");
+        waitForApiClientAndInitialize();
+      }
+    }
+    wasOnHomePage = isOnHomePage;
+  };
+
+  window.addEventListener("hashchange", checkAndInitialize);
+  
+  document.addEventListener("click", (e) => {
+    if (
+      e.target.closest(".emby-tab-button") ||
+      e.target.closest(".navMenuOption") ||
+      e.target.closest(".navMenuButton")
+    ) {
+      setTimeout(checkAndInitialize, 100);
+    }
+  });
+
+  setInterval(checkAndInitialize, 1000);
+};
+
+/**
  * Wait for ApiClient to initialize before starting the slideshow
  */
 const waitForApiClientAndInitialize = () => {
@@ -384,8 +417,6 @@ const waitForApiClientAndInitialize = () => {
       window.ApiClient._serverInfo.AccessToken
     ) {
       if (!isHomePage()) {
-        console.log("🚫 Not on home page, skipping slideshow initialization");
-        clearInterval(window.slideshowCheckInterval);
         return;
       }
 
@@ -2433,3 +2464,5 @@ window.slideshowPure = {
 initLoadingScreen();
 
 startLoginStatusWatcher();
+
+startHomePageWatcher();
