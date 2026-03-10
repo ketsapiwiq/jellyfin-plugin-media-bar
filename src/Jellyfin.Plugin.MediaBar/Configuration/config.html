@@ -57,15 +57,6 @@
                         <div class="fieldDescription">If populated, and "Use physical avatars file" is disabled, this is the name of the playlist which is used to populate the media bar.<br />
                         If empty, the media bar will randomly populate.</div>
                     </div>
-                    <div class="inputContainer">
-                        <span>Media Type Filter: </span>
-                        <select is="emby-select" class="emby-select-withcolor emby-select" data-id="mediaTypeFilterSelect">
-                            <option value="Both">Both (Movies & TV Shows)</option>
-                            <option value="MoviesOnly">Movies Only</option>
-                            <option value="TvShowsOnly">TV Shows Only</option>
-                        </select>
-                        <div class="fieldDescription">Choose which media types to display in the media bar.</div>
-                    </div>
                 </div>
             </div>
             <div id="web-config" class="jellyfin-tab-content" style="display: none;">
@@ -151,6 +142,15 @@
                             </span>
                         </label>
                         <div class="fieldDescription">Enable trailer playback on the media bar slides?</div>
+                    </div>
+                    <div class="inputContainer">
+                        <span>Media Type Filter: </span>
+                        <select is="emby-select" class="emby-select-withcolor emby-select" data-id="mediaTypeFilterSelect">
+                            <option value="Both">Both (Movies & TV Shows)</option>
+                            <option value="MoviesOnly">Movies Only</option>
+                            <option value="TvShowsOnly">TV Shows Only</option>
+                        </select>
+                        <div class="fieldDescription">Choose which media types to display in the media bar.</div>
                     </div>
                 </div>
             </div>
