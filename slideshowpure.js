@@ -119,6 +119,21 @@ const addThrottledRequest = (url, callback) => {
 };
 
 /**
+ * Checks if the current page is the home page
+ * @returns {boolean} True if on home page, false otherwise
+ */
+const isHomePage = () => {
+  const currentPath = window.location.href.toLowerCase().replace(window.location.origin, "");
+  return (
+    currentPath.includes("/web/#/home.html") ||
+    currentPath.includes("/web/#/home") ||
+    currentPath.includes("/web/index.html#/home.html") ||
+    currentPath === "/web/index.html#/home" ||
+    currentPath.endsWith("/web/")
+  );
+};
+
+/**
  * Checks if the user is currently logged in
  * @returns {boolean} True if logged in, false otherwise
  */
@@ -331,8 +346,10 @@ const startLoginStatusWatcher = () => {
 
     if (isLoggedIn !== wasLoggedIn) {
       if (isLoggedIn) {
-        console.log("👤 User logged in. Initializing slideshow...");
-        if (!STATE.slideshow.hasInitialized) {
+        if (!isHomePage()) {
+          console.log("🚫 Not on home page, skipping slideshow initialization");
+        } else if (!STATE.slideshow.hasInitialized) {
+          console.log("👤 User logged in. Initializing slideshow...");
           waitForApiClientAndInitialize();
         } else {
           console.log("🔄 Slideshow already initialized, skipping");
@@ -366,6 +383,12 @@ const waitForApiClientAndInitialize = () => {
       window.ApiClient._serverInfo &&
       window.ApiClient._serverInfo.AccessToken
     ) {
+      if (!isHomePage()) {
+        console.log("🚫 Not on home page, skipping slideshow initialization");
+        clearInterval(window.slideshowCheckInterval);
+        return;
+      }
+
       console.log(
         "🔓 User is fully logged in. Starting slideshow initialization...",
       );
