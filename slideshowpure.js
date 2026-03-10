@@ -914,8 +914,23 @@ const ApiUtils = {
 
       console.log("Fetching random items from server...");
 
+      // Determine which item types to include based on maxMovies/maxTvShows config
+      // If maxMovies === 0, exclude movies (show only TV shows)
+      // If maxTvShows === 0, exclude TV shows (show only movies)
+      // Otherwise, include both
+      let includeItemTypes = "Movie,Series";
+      if (CONFIG.maxMovies === 0 && CONFIG.maxTvShows !== 0) {
+        includeItemTypes = "Series";
+        console.log("Media type filter: TV Shows only");
+      } else if (CONFIG.maxTvShows === 0 && CONFIG.maxMovies !== 0) {
+        includeItemTypes = "Movie";
+        console.log("Media type filter: Movies only");
+      } else {
+        console.log("Media type filter: Both Movies and TV Shows");
+      }
+
       const response = await fetch(
-        `${STATE.jellyfinData.serverAddress}/Items?IncludeItemTypes=Movie,Series&Recursive=true&hasOverview=true&imageTypes=Logo,Backdrop&sortBy=Random&isPlayed=False&enableUserData=true&Limit=${CONFIG.maxItems}&fields=Id,ImageTags,RemoteTrailers`,
+        `${STATE.jellyfinData.serverAddress}/Items?IncludeItemTypes=${includeItemTypes}&Recursive=true&hasOverview=true&imageTypes=Logo,Backdrop&sortBy=Random&isPlayed=False&enableUserData=true&Limit=${CONFIG.maxItems}&fields=Id,ImageTags,RemoteTrailers`,
         {
           headers: this.getAuthHeaders(),
         },
